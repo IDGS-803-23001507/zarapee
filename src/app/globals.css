@@ -24,3 +24,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.font-lobster-custom {
+  font-family: var(--font-lobster), cursive !important;
+}
