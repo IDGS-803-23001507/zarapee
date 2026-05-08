@@ -150,28 +150,13 @@ function EmpleadosPage() {
   };
 
   return (
-    <section className="min-h-screen bg-[radial-gradient(circle_at_top,_#f9f3ea,_#f2ebe2_55%,_#efe5da)] px-6 py-24">
+    <section className="min-h-screen bg-[#FAF1E6] px-6 py-24">
       <div className="max-w-6xl mx-auto">
         <header className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.35em] text-[#6d5a52] font-semibold">
-              Employee Management Dashboard
-            </p>
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#2b1a12]">
-              Directorio de Empleados
+              Directorio
             </h1>
-            <p className="mt-3 text-base text-[#554038] max-w-2xl">
-              Administra el registro del personal con un panel profesional y limpio.
-              Controla altas, ediciones y bajas desde un solo lugar.
-            </p>
-          </div>
-          <div className="bg-white/80 border border-[#eaded0] shadow-sm rounded-2xl px-5 py-4">
-            <p className="text-xs uppercase tracking-[0.3em] text-[#8b6b5d]">
-              Total empleados
-            </p>
-            <p className="text-3xl font-semibold text-[#2b1a12]">
-              {empleados.length}
-            </p>
           </div>
         </header>
 
@@ -182,40 +167,41 @@ function EmpleadosPage() {
                 <h2 className="text-lg font-semibold tracking-[0.2em] uppercase text-[#4a2c1f]">
                   {form.idEmpleado ? "Editar empleado" : "Registro"}
                 </h2>
-                <p className="mt-2 text-sm text-[#6b4b3d]">
-                  Datos generales y asignacion de sucursal.
-                </p>
               </div>
               <span className="text-xs uppercase tracking-[0.3em] text-[#8b6b5d]">
                 Formulario
               </span>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="mt-8 space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <label className="text-xs uppercase tracking-[0.25em] text-[#6d5a52] font-semibold">
                   ID Usuario
-                  <input
+                  <select
                     name="idUsuario"
                     value={form.idUsuario}
                     onChange={handleChange}
-                    type="number"
-                    min="1"
                     required
-                    className="mt-2 w-full rounded-lg border border-[#e3d5c6] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#d9c2b2]"
-                  />
+                    className="mt-2 w-full rounded-md border border-[#d6d1c7] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#e6ded4]"
+                  >
+                    <option value="" disabled>
+                      Seleccionar...
+                    </option>
+                  </select>
                 </label>
                 <label className="text-xs uppercase tracking-[0.25em] text-[#6d5a52] font-semibold">
                   ID Sucursal
-                  <input
+                  <select
                     name="idSucursal"
                     value={form.idSucursal}
                     onChange={handleChange}
-                    type="number"
-                    min="1"
                     required
-                    className="mt-2 w-full rounded-lg border border-[#e3d5c6] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#d9c2b2]"
-                  />
+                    className="mt-2 w-full rounded-md border border-[#d6d1c7] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#e6ded4]"
+                  >
+                    <option value="" disabled>
+                      Seleccionar...
+                    </option>
+                  </select>
                 </label>
               </div>
 
@@ -227,11 +213,11 @@ function EmpleadosPage() {
                   onChange={handleChange}
                   type="text"
                   required
-                  className="mt-2 w-full rounded-lg border border-[#e3d5c6] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#d9c2b2]"
+                  className="mt-2 w-full rounded-md border border-[#d6d1c7] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#e6ded4]"
                 />
               </label>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <label className="text-xs uppercase tracking-[0.25em] text-[#6d5a52] font-semibold">
                   Apellido paterno
                   <input
@@ -240,7 +226,7 @@ function EmpleadosPage() {
                     onChange={handleChange}
                     type="text"
                     required
-                    className="mt-2 w-full rounded-lg border border-[#e3d5c6] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#d9c2b2]"
+                    className="mt-2 w-full rounded-md border border-[#d6d1c7] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#e6ded4]"
                   />
                 </label>
                 <label className="text-xs uppercase tracking-[0.25em] text-[#6d5a52] font-semibold">
@@ -250,12 +236,12 @@ function EmpleadosPage() {
                     value={form.apellidoMa}
                     onChange={handleChange}
                     type="text"
-                    className="mt-2 w-full rounded-lg border border-[#e3d5c6] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#d9c2b2]"
+                    className="mt-2 w-full rounded-md border border-[#d6d1c7] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#e6ded4]"
                   />
                 </label>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <label className="text-xs uppercase tracking-[0.25em] text-[#6d5a52] font-semibold">
                   Telefono
                   <input
@@ -264,7 +250,7 @@ function EmpleadosPage() {
                     onChange={handleChange}
                     type="tel"
                     required
-                    className="mt-2 w-full rounded-lg border border-[#e3d5c6] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#d9c2b2]"
+                    className="mt-2 w-full rounded-md border border-[#d6d1c7] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#e6ded4]"
                   />
                 </label>
                 <label className="text-xs uppercase tracking-[0.25em] text-[#6d5a52] font-semibold">
@@ -275,7 +261,7 @@ function EmpleadosPage() {
                     onChange={handleChange}
                     type="date"
                     required
-                    className="mt-2 w-full rounded-lg border border-[#e3d5c6] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#d9c2b2]"
+                    className="mt-2 w-full rounded-md border border-[#d6d1c7] bg-[#fbf7f2] px-3 py-2 text-sm focus:border-[#8c2f1f] focus:ring-2 focus:ring-[#e6ded4]"
                   />
                 </label>
               </div>
@@ -305,9 +291,6 @@ function EmpleadosPage() {
                 <h2 className="text-lg font-semibold tracking-[0.2em] uppercase text-[#4a2c1f]">
                   Empleados activos
                 </h2>
-                <p className="text-sm text-[#6b4b3d]">
-                  Busca por nombre, sucursal o identificador.
-                </p>
               </div>
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-[#f6eee4] border border-[#e5d6c7] flex items-center justify-center text-[#6f1d1b]">
@@ -317,8 +300,11 @@ function EmpleadosPage() {
                   value={filter}
                   onChange={(event) => setFilter(event.target.value)}
                   placeholder="Buscar empleado..."
-                  className="w-full md:w-64 rounded-full border border-[#e3d5c6] bg-[#fbf7f2] px-4 py-2 text-sm focus:border-[#6f1d1b] focus:ring-2 focus:ring-[#d9c2b2]"
+                  className="w-full md:w-64 rounded-full border border-[#d6d1c7] bg-[#fbf7f2] px-4 py-2 text-sm focus:border-[#6f1d1b] focus:ring-2 focus:ring-[#e6ded4]"
                 />
+                <span className="rounded-full border border-[#e5d6c7] bg-[#f6eee4] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[#8b6b5d]">
+                  Total {empleados.length}
+                </span>
               </div>
             </div>
 
