@@ -20,7 +20,7 @@ const Footer = () => {
                     <Link href="/work-with-us" className="hover:text-white transition-colors">Work with us</Link>
                             <span className="text-gray-600 text-[8px]">•</span>
                     
-                    <Link href="/grupo-andersons" className="hover:text-white transition-colors">Grupo Anderson's</Link>
+                    <Link href="/grupo-andersons" className="hover:text-white transition-colors">Grupo Anderson&apos;s</Link>
                             <span className="text-gray-600 text-[8px]">•</span>
                     
                     <Link href="/promotions" className="hover:text-white transition-colors">Promotions</Link>

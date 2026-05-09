@@ -21,7 +21,7 @@ idProducto int not null auto_increment,
 nombre varchar(50) not null,
 descripcion varchar(200) not null,
 foto longtext,
-precio decimal (10.2),
+precio decimal(10,2),
 tipo enum('ALIMENTO','BEBIDA','COMBO'),
 estatus Boolean default 1,
 Constraint pk_producto primary key (idProducto)
@@ -102,3 +102,8 @@ cp varchar(10),
 Constraint pk_cliente primary key (idCliente),
 Constraint fk_clt_usuario foreign key (idUsuario) references Usuario(idUsuario) 
 );
+Insert into Producto (nombre, descripcion, foto, precio, tipo, estatus)
+values ('Agua de horchata', 'Bebida de ejemplo cargada por script', '/uploads/bebidas/horchata-demo.jpg', 35.00, 'BEBIDA', 1);
+
+Insert into Bebida (idProducto)
+values (last_insert_id());

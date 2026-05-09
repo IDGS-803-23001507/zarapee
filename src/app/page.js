@@ -147,9 +147,11 @@ function HomePage() {
 
           <div className="relative w-[280px] h-[360px] mt-12 overflow-hidden rounded-xl group cursor-pointer
         transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-
-            <img
+            <Image
               src="/home/card1.jpeg"
+              alt="Promociones"
+              fill
+              sizes="280px"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
 
@@ -170,9 +172,11 @@ function HomePage() {
 
           <div className="relative mx-8 w-[340px] h-[440px] overflow-hidden rounded-xl group cursor-pointer
         transition-all duration-500 hover:-translate-y-3 hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
-
-            <img
+            <Image
               src="/home/card4.jpg"
+              alt="Menú destacado"
+              fill
+              sizes="340px"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
 
@@ -195,9 +199,11 @@ function HomePage() {
 
           <div className="relative w-[280px] h-[360px] mt-12 overflow-hidden rounded-xl group cursor-pointer
         transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
-
-            <img
+            <Image
               src="/home/card5.jpg"
+              alt="Sucursales"
+              fill
+              sizes="280px"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
 
@@ -223,9 +229,10 @@ function HomePage() {
         <div className="relative w-screen h-[92vh] overflow-hidden">
 
           
-          <img
-            src="/home/bg_section.jpg"
-            alt="bg_section"
+          <Image
+            src="/home/bg_Section.jpg"
+            alt="Nuestras sucursales"
+            fill
             sizes="100vw"
             className="object-cover object-center"
           />

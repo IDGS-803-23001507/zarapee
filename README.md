@@ -2,6 +2,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Create a local environment file and configure your MySQL credentials:
+
+```bash
+cp .env.example .env.local
+```
+
 First, run the development server:
 
 ```bash
