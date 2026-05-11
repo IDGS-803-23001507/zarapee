@@ -1,90 +1,97 @@
 import { NextResponse } from "next/server";
 import pool from "@/lib/db";
+import {
+  BASE_SELECT_EMPLEADOS,
+  getEmpleadoById,
+  mapEmpleado,
+  normalizeEmpleadoPayload,
+} from "./helpers";
 
-const requiredFields = [
-  "idUsuario",
-  "idSucursal",
-  "nombre",
-  "apellidoPa",
-  "telefono",
-  "fechaNac",
-];
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-const normalizeBody = (body) => ({
-  idUsuario: Number(body.idUsuario),
-  idSucursal: Number(body.idSucursal),
-  nombre: (body.nombre || "").trim(),
-  apellidoPa: (body.apellidoPa || "").trim(),
-  apellidoMa: (body.apellidoMa || "").trim(),
-  telefono: (body.telefono || "").trim(),
-  fechaNac: body.fechaNac,
-});
+function getDatabaseErrorMessage(error, fallback) {
+  const errorCode = error?.code;
 
-const validatePayload = (payload) => {
-  const missing = requiredFields.filter((field) => {
-    if (field === "fechaNac") return !payload.fechaNac;
-    if (field === "nombre" || field === "apellidoPa" || field === "telefono") {
-      return !payload[field];
-    }
-    return Number.isNaN(payload[field]) || payload[field] <= 0;
-  });
-
-  if (missing.length > 0) {
-    return `Faltan datos requeridos: ${missing.join(", ")}`;
+  if (errorCode === "ER_ACCESS_DENIED_ERROR") {
+    return "No se pudo conectar a la base de datos. Revisa DB_USER y DB_PASSWORD.";
+  }
+  if (errorCode === "ER_BAD_DB_ERROR") {
+    return "No se encontró la base de datos configurada. Revisa DB_NAME.";
   }
 
-  return "";
-};
+  return fallback;
+}
 
 export async function GET() {
   try {
-    const [rows] = await pool.query(
-      `SELECT e.idEmpleado, e.idUsuario, e.idSucursal, e.nombre, e.apellidoPa, e.apellidoMa,
-              e.telefono, DATE_FORMAT(e.fechaNac, '%Y-%m-%d') AS fechaNac,
-              u.Email AS email, s.nombre AS sucursalNombre
-       FROM Empleado e
-       JOIN Usuario u ON e.idUsuario = u.idUsuario
-       JOIN Sucursal s ON e.idSucursal = s.idSucursal
-       ORDER BY e.idEmpleado DESC`
-    );
-
-    return NextResponse.json(rows);
+    const [rows] = await pool.query(`${BASE_SELECT_EMPLEADOS} ORDER BY e.idEmpleado DESC`);
+    return NextResponse.json(rows.map(mapEmpleado), {
+      headers: {
+        "Cache-Control": "no-store, max-age=0",
+      },
+    });
   } catch (error) {
+    console.error("Error al consultar empleados:", error);
     return NextResponse.json(
-      { message: "Error al consultar empleados", error: String(error) },
+      {
+        error: getDatabaseErrorMessage(
+          error,
+          "No se pudo cargar el módulo de empleados."
+        ),
+      },
       { status: 500 }
     );
   }
 }
 
 export async function POST(request) {
+  let payload;
+
   try {
-    const body = await request.json();
-    const payload = normalizeBody(body);
-    const validationError = validatePayload(payload);
-
-    if (validationError) {
-      return NextResponse.json({ message: validationError }, { status: 400 });
-    }
-
-    const [result] = await pool.execute(
-      `INSERT INTO Empleado
-        (idUsuario, idSucursal, nombre, apellidoPa, apellidoMa, telefono, fechaNac)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`
-    , [
-      payload.idUsuario,
-      payload.idSucursal,
-      payload.nombre,
-      payload.apellidoPa,
-      payload.apellidoMa || null,
-      payload.telefono,
-      payload.fechaNac,
-    ]);
-
-    return NextResponse.json({ idEmpleado: result.insertId }, { status: 201 });
-  } catch (error) {
+    payload = await request.json();
+  } catch {
     return NextResponse.json(
-      { message: "Error al crear empleado", error: String(error) },
+      { error: "El cuerpo de la petición es inválido." },
+      { status: 400 }
+    );
+  }
+
+  const { data, error } = normalizeEmpleadoPayload(payload);
+  if (error) {
+    return NextResponse.json({ error }, { status: 400 });
+  }
+
+  try {
+    const [result] = await pool.query(
+      `
+        INSERT INTO Empleado
+          (idUsuario, idSucursal, nombre, apellidoPa, apellidoMa, telefono, fechaNac)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        data.idUsuario,
+        data.idSucursal,
+        data.nombre,
+        data.apellidoPa,
+        data.apellidoMa,
+        data.telefono,
+        data.fechaNac,
+      ]
+    );
+
+    const empleadoCreado = await getEmpleadoById(pool, result.insertId);
+    return NextResponse.json(empleadoCreado, { status: 201 });
+  } catch (dbError) {
+    console.error("Error al crear empleado:", dbError);
+    return NextResponse.json(
+      {
+        error: getDatabaseErrorMessage(
+          dbError,
+          "No se pudo crear el empleado en base de datos."
+        ),
+      },
       { status: 500 }
     );
   }
